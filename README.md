@@ -25,6 +25,8 @@ pip install git+https://github.com/jpmens/mqtt2graphite.git
 ./init_server.sh mqtt.hostname
 ```
 
+* Alternatively, clone this repo locally, edit mqtt2graphite.service to suit your needs and copy it to `/etc/systemd/system`. You can now start the service by running `[sudo] systemctl start mqtt2graphite`
+
 ## Running
 
 * Edit the `mqtt.hostname.conf` file
