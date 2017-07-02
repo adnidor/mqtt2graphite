@@ -1,0 +1,13 @@
+[Unit]
+Description=Send MQTT messsages to Carbon
+Wants=network.target
+
+[Service]
+ExecStart=/usr/bin/mqtt2graphite.py
+Environment="MQTT_HOST=localhost"
+Environment="CARBON_SERVER=localhost"
+Environment="MQTT_PORT=1883"
+Environment="CARBON_PORT=2003"
+
+[Install]
+WantedBy=default.target
