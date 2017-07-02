@@ -3,7 +3,11 @@
 __author__ = "Jan-Piet Mens"
 __copyright__ = "Copyright (C) 2013 by Jan-Piet Mens"
 
-import paho.mqtt.client as paho
+try:
+    import paho.mqtt.client as paho
+except ImportError:
+    import mosquitto as paho #compatibility with debian python-mosquitto package
+
 import ssl
 import os, sys
 import logging
@@ -46,7 +50,7 @@ def is_number(s):
         return False
 
 
-def on_connect(mosq, userdata, flags, rc):
+def on_connect(mosq, userdata, flags=None, rc=None):
     logging.info("Connected to broker at %s as %s" % (MQTT_HOST, client_id))
 
     mqttc.publish("/clients/" + client_id, "Online")
@@ -159,7 +163,10 @@ def main():
         'map'       : map,
     }
     global mqttc
-    mqttc = paho.Client(client_id, clean_session=True, userdata=userdata)
+    try:
+        mqttc = paho.Client(client_id, clean_session=True, userdata=userdata)
+    except AttributeError:
+        mqttc = paho.Mosquitto(client_id, clean_session=True, userdata=userdata)
     mqttc.on_message = on_message
     mqttc.on_connect = on_connect
     mqttc.on_disconnect = on_disconnect
