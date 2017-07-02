@@ -133,7 +133,7 @@ def main():
     if len(sys.argv) > 1:
         map_file = sys.argv[1]
     else:
-        map_file = 'map'
+        map_file = os.path.dirname(os.path.realpath(__file__))+'/map'
 
     f = open(map_file)
     for line in f.readlines():
